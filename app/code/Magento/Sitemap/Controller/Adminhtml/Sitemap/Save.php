@@ -12,6 +12,11 @@ use Magento\Framework\Controller;
 class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 {
     /**
+     * Maximum length of sitemap filename
+     */
+    const MAX_FILENAME_LENGTH = 32;
+
+    /**
      * Validate path for generation
      *
      * @param array $data
@@ -35,6 +40,16 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
                 // save data in session
                 $this->_objectManager->get(\Magento\Backend\Model\Session::class)->setFormData($data);
                 // redirect to edit form
+                return false;
+            }
+            $filename = rtrim($data['sitemap_filename']);
+            /** @var $lengthValidator \Magento\Framework\Validator\StringLength */
+            $lengthValidator = $this->_objectManager->create(\Magento\Framework\Validator\StringLength::class);
+            $lengthValidator->setMax(self::MAX_FILENAME_LENGTH);
+            if (!$lengthValidator->isValid($filename)) {
+                foreach ($lengthValidator->getMessages() as $message) {
+                    $this->messageManager->addErrorMessage($message);
+                }
                 return false;
             }
         }
