@@ -12,7 +12,7 @@ namespace Magento\Backend\Model\Dashboard;
  */
 class Period
 {
-    public const PERIOD_24_HOURS = '24h';
+    public const PERIOD_24_HOURS = '24hr';
     public const PERIOD_7_DAYS = '7d';
     public const PERIOD_1_MONTH = '1m';
     public const PERIOD_1_YEAR = '1y';
